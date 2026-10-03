@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>টাকার গোলাম নাটক</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --badge-bg: #fee2e2;
+            --badge-text: #dc2626;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Bar Announcement */
+        .top-announcement {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            color: #ffffff;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* Navigation Header */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-wrapper {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        .brand-logo .icon {
+            width: 38px;
+            height: 38px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            max-width: 480px;
+            margin: 0 24px;
+            position: relative;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .search-bar { display: block; }
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 16px 10px 42px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background-color: #f1f5f9;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-bar input:focus {
+            background-color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--badge-text);
+            background: var(--badge-bg);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #dc2626;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+
+        /* Hero Container */
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 24px 20px 48px;
+        }
+
+        .category-pills {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            scrollbar-width: none;
+        }
+
+        .category-pills::-webkit-scrollbar { display: none; }
+
+        .pill {
+            padding: 8px 18px;
+            border-radius: 25px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .pill.active, .pill:hover {
+            background: var(--text-dark);
+            color: #ffffff;
+            border-color: var(--text-dark);
+        }
+
+        /* Main Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .video-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: #cbd5e1;
+        }
+
+        .thumb-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #cbd5e1;
+            overflow: hidden;
+        }
+
+        .thumb-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .video-card:hover .thumb-wrapper img {
+            transform: scale(1.06);
+        }
+
+        .play-btn-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.9;
+            transition: all 0.3s;
+        }
+
+        .play-icon-box {
+            width: 56px;
+            height: 56px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover .play-icon-box {
+            transform: scale(1.15);
+            background: var(--primary);
+        }
+
+        .play-icon-box svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--primary);
+            margin-left: 3px;
+            transition: fill 0.3s ease;
+        }
+
+        .video-card:hover .play-icon-box svg {
+            fill: #ffffff;
+        }
+
+        .duration-tag {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hd-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(37, 99, 235, 0.9);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .card-details {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .video-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .verified-channel {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        /* Action Footer */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .footer-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-announcement">
+        ⚡ High-Speed HD Video Server Connected • Select a Video to Play Immediately
+    </div>
+
+    <header>
+        <div class="header-wrapper">
+            <a href="#" class="brand-logo">
+                <div class="icon">▶</div>
+                <span>দোনিয়া টাকার গোলাম</span>
+            </a>
+
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Search trending videos, clips, reels..." readonly>
+            </div>
+
+            <div class="live-status">
+                <span class="pulse-dot"></span>
+                <span>LIVE TRENDING</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Category Filter Pills -->
+        <div class="category-pills">
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="pill active">🔥 All Trending</a>
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="pill">🎬 Viral Clips</a>
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="pill">⚡ Short Reels</a>
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="pill">🏆 Exclusive HD</a>
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="pill">🌟 Most Watched</a>
+        </div>
+
+        <div class="video-grid">
+            <!-- Video 1 -->
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="video-card">
+                <div class="thumb-wrapper">
+                    <span class="hd-badge">4K ULTRA</span>
+                    <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=600&q=80" alt="Thumbnail">
+                    <div class="play-btn-overlay">
+                        <div class="play-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="duration-tag">14:20</div>
+                </div>
+                <div class="card-details">
+                    <h3 class="video-title">🔥 Exclusive Full Video Clip - Viral Trending Stream 2026</h3>
+                    <div class="video-meta">
+                        <span class="verified-channel">✓ Verified Stream</span>
+                        <span>420K Views • 2h ago</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video 2 -->
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="video-card">
+                <div class="thumb-wrapper">
+                    <span class="hd-badge">HD 1080P</span>
+                    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80" alt="Thumbnail">
+                    <div class="play-btn-overlay">
+                        <div class="play-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="duration-tag">09:15</div>
+                </div>
+                <div class="card-details">
+                    <h3 class="video-title">🎬 Shocking Viral Highlights Full Uncut Version</h3>
+                    <div class="video-meta">
+                        <span class="verified-channel">✓ Verified Stream</span>
+                        <span>280K Views • 5h ago</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video 3 -->
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="video-card">
+                <div class="thumb-wrapper">
+                    <span class="hd-badge">4K ULTRA</span>
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80" alt="Thumbnail">
+                    <div class="play-btn-overlay">
+                        <div class="play-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="duration-tag">18:40</div>
+                </div>
+                <div class="card-details">
+                    <h3 class="video-title">🌟 Most Popular Special Performance Recording</h3>
+                    <div class="video-meta">
+                        <span class="verified-channel">✓ Verified Stream</span>
+                        <span>510K Views • 1d ago</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video 4 -->
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="video-card">
+                <div class="thumb-wrapper">
+                    <span class="hd-badge">HD 1080P</span>
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Thumbnail">
+                    <div class="play-btn-overlay">
+                        <div class="play-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="duration-tag">07:50</div>
+                </div>
+                <div class="card-details">
+                    <h3 class="video-title">⚡ Top Trending Social Media Video Full Clip</h3>
+                    <div class="video-meta">
+                        <span class="verified-channel">✓ Verified Stream</span>
+                        <span>195K Views • 3h ago</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video 5 -->
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="video-card">
+                <div class="thumb-wrapper">
+                    <span class="hd-badge">4K ULTRA</span>
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Thumbnail">
+                    <div class="play-btn-overlay">
+                        <div class="play-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="duration-tag">22:10</div>
+                </div>
+                <div class="card-details">
+                    <h3 class="video-title">🏆 Behind The Scenes Full HD Uncensored Story</h3>
+                    <div class="video-meta">
+                        <span class="verified-channel">✓ Verified Stream</span>
+                        <span>890K Views • 12h ago</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Video 6 -->
+            <a href="YOUR_ADSTERRA_DIRECT_LINK_HERE" target="_blank" class="video-card">
+                <div class="thumb-wrapper">
+                    <span class="hd-badge">HD 1080P</span>
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80" alt="Thumbnail">
+                    <div class="play-btn-overlay">
+                        <div class="play-icon-box">
+                            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="duration-tag">11:05</div>
+                </div>
+                <div class="card-details">
+                    <h3 class="video-title">🔥 New Released Special Video Clip - High Quality</h3>
+                    <div class="video-meta">
+                        <span class="verified-channel">✓ Verified Stream</span>
+                        <span>340K Views • 4h ago</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-wrap">
+            <p>&copy; 2026 StreamHub Media Network. Ultra-fast Cloud Video Delivery.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">DMCA Notice</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
